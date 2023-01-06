@@ -6,15 +6,15 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import {HttpClientModule} from "@angular/common/http";
 import { AssignmentComponent } from './assignment/assignment.component';
-import { InputComponent } from './input/input.component';
-import { OutputComponent } from './output/output.component';
+import { Component1Component } from './component1/component1.component';
+import { Component2Component } from './component2/component2.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AssignmentComponent,
-    InputComponent,
-    OutputComponent
+    Component1Component,
+    Component2Component,
   ],
     imports: [
         BrowserModule,
