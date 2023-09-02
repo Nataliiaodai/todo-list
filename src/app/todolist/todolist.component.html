@@ -1,0 +1,62 @@
+<section class="todolist-container">
+
+    <div class="todolist-block">
+
+        <div class="todolist-menu">
+            <div class="form">
+                <i class="fa fa-search"></i>
+                <input type="text" class="form-control form-input" placeholder="Search anything...">
+              </div>
+
+            <ul class="todolist-menu-list">
+                <li class="todolist-menu-item">
+                    <a class="todolist-menu-link">Tasks</a>
+                </li>
+                <li class="todolist-menu-item">
+                    <a class="todolist-menu-link">My day</a> 
+                </li>
+                <li class="todolist-menu-item">
+                    <a class="todolist-menu-link">Important</a>
+                </li>
+                <li class="todolist-menu-item">
+                    <a class="todolist-menu-link">Planned</a>
+                </li>
+                <li class="todolist-menu-item">
+                    <a class="todolist-menu-link">Assigned to me</a>
+                </li>
+                <li class="todolist-menu-item">
+                    <a class="todolist-menu-link">Flagged email</a>
+                </li>
+            </ul>
+         </div>
+
+        <div class="todolist-tasks">
+            <h3 class="todolist-tasks-title">Tasks</h3> 
+
+            <div>
+                <ul class="todolist-tasks-list">
+                    <li class="todolist-tasks-item" *ngFor="let task of tasks; let i = index">
+                        <input (click)="onlistTaskClecked(i)" type="checkbox" class="checkbox-round"/>
+                       <input style="border: none;"placeholder="{{task}}" class="todolist-tasks-text"/> 
+                    </li>
+                    
+                 </ul>
+    
+                <ul class="todolist-newtasks-list">
+                    <li class="todolist-newtasks-item">
+                        <svg *ngIf="inputValue === ''" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                          </svg>
+                        <input *ngIf="inputValue !== ''" type="checkbox" class="checkbox-round"/>
+                       <input [(ngModel)]="inputValue" (blur)="onInputBlur()"  (keyup.enter)="onEnterKey()" placeholder="Add a task" class="todolist-newtasks-text"/> 
+                    </li>
+                    
+                 </ul>
+            </div>
+           
+
+        </div>
+
+    </div>
+    
+</section>

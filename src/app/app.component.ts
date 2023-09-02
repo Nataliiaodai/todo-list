@@ -11,5 +11,13 @@ import { DataService } from './data.service';
 })
 export class AppComponent implements OnInit {
 
-    ngOnInit() {}
+  ngOnInit() {}
+
+
+
+  yell(text: string) {
+    alert(text);
+  }
+
+
 }

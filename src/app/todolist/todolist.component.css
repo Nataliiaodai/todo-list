@@ -1,0 +1,175 @@
+.todolist-container {
+    /* display: flex;  */
+    /* justify-content: center;  */
+    /* align-items: center; */
+    font-size: medium;
+    width: 800px;
+    height: 550px;
+    padding: 15px 15px 20px 20px;
+}
+
+.todolist-block {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    /* border: 1px solid rgba(176, 169, 169, 0.849); */
+    border-radius: 10px;
+    box-shadow:
+    inset 0 -3em 3em rgba(231, 219, 219, 0.1),
+    0 0 0 2px rgba(255, 255, 255, 0.798),
+    0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+}
+
+.todolist-menu {
+    width: 30%;
+    height: inherit;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    /* border: 1px solid rgba(176, 169, 169, 0.849); */
+    padding: 15px 20px;
+} 
+
+.todolist-tasks {
+    width: 70%;
+    height: inherit;
+    background-color: rgb(64 96 211 / 75%);
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    /* border: 1px solid rgba(176, 169, 169, 0.849); */
+    padding: 10px 20px;
+} 
+
+
+.todolist-tasks-title {
+    text-align: center;
+    color: white;
+    font-weight: 700;
+}
+ .todolist-tasks-list {
+    padding-left: 0;
+ } 
+
+.todolist-tasks-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    width: 90%;
+    height: 50px;
+    background-color: white;
+    margin-bottom: 1px;
+    list-style: none;
+    border-radius: 5px;
+}
+
+.todolist-menu-list {
+    margin: 10px 0;
+    padding: 10px 20px;
+    list-style: none;
+    height: 70%;
+}
+
+.todolist-menu-item {
+    margin-bottom: 5px;
+    padding: 5px 10px;
+}
+
+.todolist-menu-link {
+    padding: 10px 5px;
+    height: 10px;
+    color: black;
+}
+
+
+.checkbox-round {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 2px solid #999;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.checkbox-round:checked {
+    background-color: gray;
+}
+
+
+
+.form{
+    position: relative;
+    width: 100%;
+}
+
+.form .fa-search{
+    position: absolute;
+    top:20px;
+    left: 20px;
+    color: #9ca3af;
+
+}
+
+.left-pan i{
+   padding-left: 10px;
+}
+
+.form-input{
+
+    height: 30px;
+    /* text-indent: 33px; */
+    border-radius: 10px;
+}
+
+.form-input:focus{
+    box-shadow: none;
+    border:none;
+}
+
+
+/* .plusNewTask{
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+} */
+
+.todolist-newtasks-list {
+    padding-left: 0;
+}
+
+.todolist-newtasks-item{
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    width: 90%;
+    height: 50px;
+    background-color: white;
+    margin-bottom: 1px;
+    list-style: none;
+    border-radius: 5px;
+    background-color:  rgb(64 96 211 / 75%);
+}
+
+.todolist-newtasks-item svg {
+    margin-right: 10px; 
+    color: white
+}
+
+
+.todolist-newtasks-text{
+     background-color: transparent;
+     color:white;
+     border:none;
+}
+
+.todolist-newtasks-text::placeholder {
+    color:white;
+}
+
+.todolist-newtasks-text:focus {
+    outline:none;
+}
