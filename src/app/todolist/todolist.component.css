@@ -35,6 +35,7 @@
 
 
 .todolist-tasks-title {
+    /* width: 100%; */
     text-align: center;
     color: white;
     font-weight: 700;
@@ -58,6 +59,15 @@
     border-radius: 5px;
 }
 
+.todolist-tasks-input {
+    width: 100%;
+}
+
+.todolist-tasks-input::placeholder {
+    color: rgb(34, 33, 33);
+} 
+
+
 .todolist-menu-list {
     margin: 10px 0;
     padding: 10px 20px;
@@ -68,6 +78,11 @@
 .todolist-menu-item {
     margin-bottom: 5px;
     padding: 5px 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    cursor: pointer;
 }
 
 .todolist-menu-link {
@@ -97,7 +112,8 @@
     top:20px;
     left: 20px;
     color: #9ca3af;
-
+    top: 7px;
+    left: 156px;
 }
 
 .left-pan i{
@@ -141,17 +157,18 @@
 }
 
 
-.todolist-newtasks-text{
+.todolist-newtasks-input{
+     width: 100%;
      background-color: transparent;
      color:white;
      border:none;
 }
 
-.todolist-newtasks-text::placeholder {
+.todolist-newtasks-input::placeholder {
     color:white;
 }
 
-.todolist-newtasks-text:focus {
+.todolist-newtasks-input:focus {
     outline:none;
 }
 
@@ -184,6 +201,17 @@
     cursor: pointer;
 }
    
+
+.todolist-donetasks-input {
+    width: 100%;
+    text-decoration: line-through;
+}
+
+
+.todolist-donetasks-input::placeholder {
+    color: gray;
+} 
+
 .task-title {
     color: white;
     background-color: rgb(64 96 211 / 75%);
@@ -202,6 +230,11 @@
     height: 90%;
 }
 
-
-
+.star {
+    cursor: pointer;
+    color: gray;
+  }
   
+  .active-star {
+    color: rgb(255, 174, 0); 
+  }
