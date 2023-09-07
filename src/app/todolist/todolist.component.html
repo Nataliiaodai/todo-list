@@ -36,7 +36,7 @@
             <div class="todolist-tasks-container">
                 <h5 class="task-title">To Do:</h5>
                 <ul class="todolist-tasks-list">
-                    
+                    <p class="tipText" *ngIf="tasks.length === 0">There are no tasks yet! Create one.</p>
                     <li class="todolist-tasks-item" *ngFor="let task of tasks; let i = index">
                         <svg xmlns="http://www.w3.org/2000/svg" (click)="onlistTaskDelete(i)" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
@@ -61,7 +61,7 @@
                  
                  <h5 class="task-title">Completed:</h5>
                  <ul class="todolist-donetasks-list">
-                    
+                    <p class="tipText" *ngIf="doneTasks.length === 0">You don't have completed tasks yet!</p>
                     <li class="todolist-donetasks-item" *ngFor="let doneTask of doneTasks; let i = index">
                         <input [checked]="isChecked" (click)="onlistDoneTaskClicked(i)" type="checkbox" class="checkbox" />
                        <input style="border: none;"placeholder="{{doneTask}}"  class="todolist-donetasks-input"/> 
@@ -72,7 +72,7 @@
                 <ul class="todolist-newtasks-list">
                     <li class="todolist-newtasks-item">
                          <!-- <input type="checkbox" class="checkbox"/> -->
-                         <svg  style="margin-right: 10px;" xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                         <svg (click)="onInputBlur()" style="margin-right: 10px;" xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
                           </svg>
                        <input [(ngModel)]="inputValue" (blur)="onInputBlur()"  (keyup.enter)="onEnterKey()" placeholder="Add a task" class="todolist-newtasks-input"/> 

@@ -1,4 +1,6 @@
 export class  TaskModel{
     taskName: string;
-    onTaskClicked: number;
+    // onTaskClicked: number;
+    id: number;
+    
 }

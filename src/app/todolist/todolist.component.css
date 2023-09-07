@@ -51,7 +51,7 @@
     display: flex;
     align-items: center; 
     padding: 10px 15px;
-    width: 90%;
+    width: 100%;
     height: 47px;
     background-color: white;
     margin-bottom: 1px;
@@ -141,7 +141,7 @@
     display: flex;
     align-items: center;
     padding: 10px 15px;
-    width: 90%;
+    width: 100%;
     height: 47px;
     background-color: white;
     margin-bottom: 1px;
@@ -184,7 +184,7 @@
     display: flex;
     align-items: center;
     padding: 10px 15px;
-    width: 90%;
+    width: 100%;
     height: 47px;
     background-color: white;
     margin-bottom: 1px;
@@ -237,4 +237,9 @@
   
   .active-star {
     color: rgb(255, 174, 0); 
+  }
+
+  .tipText {
+    color:white;
+    font-size: medium;
   }

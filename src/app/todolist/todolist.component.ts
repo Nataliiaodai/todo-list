@@ -15,10 +15,10 @@ export class TodolistComponent implements OnInit {
     isChecked: boolean = true;
     staredTasks: string[] = [];
     totalTasks: number;
-    importantT: number;
+    // importantT: number;
 
-    doneTaskValue: string = "";
-    taskValue: string = "";
+    // doneTaskValue: string = "";
+    // taskValue: string = "";
     myControl = new FormControl('');
     inputValue = '';
     
@@ -94,8 +94,12 @@ export class TodolistComponent implements OnInit {
    
 
     onlistTaskClicked(taskIndex: number) {
+        let ind: number = taskIndex;
+        if (this.staredTasks.includes(this.tasks[ind])){
+            let elemToDel = this.staredTasks.indexOf(this.tasks[ind]);
+            this.staredTasks.splice(elemToDel, 1);
+        }
 
-        
         console.log('WE CLICKED ON: ',this.tasks[taskIndex]);
         this.doneTasks.unshift(this.tasks[taskIndex]);
         this.tasks.splice(taskIndex,1);
