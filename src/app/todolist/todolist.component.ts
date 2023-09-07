@@ -13,12 +13,9 @@ export class TodolistComponent implements OnInit {
     tasks: string[] = [];
     doneTasks: string[] =[];
     isChecked: boolean = true;
-    staredTasks: string[] = [];
+    starredTasks: string[] = [];
     totalTasks: number;
-    // importantT: number;
-
-    // doneTaskValue: string = "";
-    // taskValue: string = "";
+   
     myControl = new FormControl('');
     inputValue = '';
     
@@ -31,22 +28,22 @@ export class TodolistComponent implements OnInit {
 
     toggleStarColor(starElement: HTMLElement, index: number) {
         starElement.classList.toggle('active-star');
-        console.log('IF staredTasks.includes)--', this.staredTasks.includes(this.tasks[index]))
+        console.log('IF staredTasks.includes)--', this.starredTasks.includes(this.tasks[index]))
         console.log('index', index);
         let elem: string = this.tasks[index];
 
-        if(!this.staredTasks.includes(this.tasks[index])){
-            this.staredTasks.push(this.tasks[index]);
+        if(!this.starredTasks.includes(this.tasks[index])){
+            this.starredTasks.push(this.tasks[index]);
             console.log("PUSHING",this.tasks[index]);
             console.log('this.tasks[index] --', this.tasks[index]);
-            console.log('this.staredTasks --', this.staredTasks);
+            console.log('this.staredTasks --', this.starredTasks);
         } else {
-            let elemToDel = this.staredTasks.indexOf(elem);
-            this.staredTasks.splice(elemToDel, 1);
+            let elemToDel = this.starredTasks.indexOf(elem);
+            this.starredTasks.splice(elemToDel, 1);
             console.log("SPLICING", index)
-            console.log('this.staredTasks --', this.staredTasks);
+            console.log('this.staredTasks --', this.starredTasks);
             console.log('this.tasks[index] --', this.tasks[index]);
-            console.log('this.staredTasks --', this.staredTasks);
+            console.log('this.staredTasks --', this.starredTasks);
         }       
       
       }
@@ -74,9 +71,9 @@ export class TodolistComponent implements OnInit {
         let ind: number = taskIndex;
         console.log('index of task I clicked', this.tasks[ind]);
 
-        if (this.staredTasks.includes(this.tasks[ind])){
-            let elemToDel = this.staredTasks.indexOf(this.tasks[ind]);
-            this.staredTasks.splice(elemToDel, 1);
+        if (this.starredTasks.includes(this.tasks[ind])){
+            let elemToDel = this.starredTasks.indexOf(this.tasks[ind]);
+            this.starredTasks.splice(elemToDel, 1);
         }
 
         this.tasks.splice(taskIndex,1);
@@ -88,16 +85,16 @@ export class TodolistComponent implements OnInit {
         this.totalTasks = this.tasks.length;
         console.log("DO CHECK")
         console.log('this.tasks.length', this.tasks.length);
-        console.log("this.staredTasks.length", this.staredTasks.length)
+        console.log("this.staredTasks.length", this.starredTasks.length)
       }
 
    
 
     onlistTaskClicked(taskIndex: number) {
         let ind: number = taskIndex;
-        if (this.staredTasks.includes(this.tasks[ind])){
-            let elemToDel = this.staredTasks.indexOf(this.tasks[ind]);
-            this.staredTasks.splice(elemToDel, 1);
+        if (this.starredTasks.includes(this.tasks[ind])){
+            let elemToDel = this.starredTasks.indexOf(this.tasks[ind]);
+            this.starredTasks.splice(elemToDel, 1);
         }
 
         console.log('WE CLICKED ON: ',this.tasks[taskIndex]);
