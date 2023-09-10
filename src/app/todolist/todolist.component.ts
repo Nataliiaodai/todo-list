@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl } from '@angular/forms';
+import { consoleTestResultHandler } from "tslint/lib/test";
 import { TaskModel } from "./task.model";
 
 @Component({
@@ -10,103 +11,94 @@ import { TaskModel } from "./task.model";
 export class TodolistComponent implements OnInit {
 
     constructor() { }
-    tasks: string[] = [];
-    doneTasks: string[] =[];
-    isChecked: boolean = true;
-    starredTasks: string[] = [];
+    tasks: TaskModel[] = [];
+
     totalTasks: number;
-   
+    starredTasks: number = 0;
+    doneTasks: TaskModel[] = [];
+    isChecked: boolean = true;
+
     myControl = new FormControl('');
     inputValue = '';
+    
     
 
     ngOnInit() {
         this.myControl.valueChanges.subscribe((newValue) => {
             console.log('Input value:', newValue);
           });
+
     }
 
-    toggleStarColor(starElement: HTMLElement, index: number) {
-        starElement.classList.toggle('active-star');
-        console.log('IF staredTasks.includes)--', this.starredTasks.includes(this.tasks[index]))
-        console.log('index', index);
-        let elem: string = this.tasks[index];
 
-        if(!this.starredTasks.includes(this.tasks[index])){
-            this.starredTasks.push(this.tasks[index]);
-            console.log("PUSHING",this.tasks[index]);
-            console.log('this.tasks[index] --', this.tasks[index]);
-            console.log('this.staredTasks --', this.starredTasks);
-        } else {
-            let elemToDel = this.starredTasks.indexOf(elem);
-            this.starredTasks.splice(elemToDel, 1);
-            console.log("SPLICING", index)
-            console.log('this.staredTasks --', this.starredTasks);
-            console.log('this.tasks[index] --', this.tasks[index]);
-            console.log('this.staredTasks --', this.starredTasks);
-        }       
-      
+    ngDoCheck(){
+        console.log('IN DO CHECK this.doneTasks', this.doneTasks);
+        console.log('IN DO CHECK this.tasks', this.tasks);
+            
+        this.totalTasks = this.tasks.length;
+             console.log('IN DO CHECK starredTasks----',this.starredTasks);
+    
       }
 
 
-    onlistDoneTaskClicked(index: number) {
-        console.log('WE CLICKED ON: ',this.doneTasks[index]);
-        this.tasks.push(this.doneTasks[index]);
-        this.doneTasks.splice(index,1);
-
-        console.log('DONE: ',this.doneTasks);
-        console.log('TODO: ', this.tasks); 
-    }
-
-
     onInputBlur() {
+        let newTask: TaskModel = new TaskModel;
+
         if (this.inputValue) {
-            this.tasks.push(this.inputValue);
+            newTask.taskName = this.inputValue;
+            newTask.taskId += 1;
+            TaskModel.lastId = newTask.taskId;
+            this.tasks.push(newTask);
+            console.log(this.tasks);
         }
             this.inputValue = '';
     }
 
+    onEnterKey() {
+        this.onInputBlur(); 
+     }
+ 
 
-    onlistTaskDelete (taskIndex: number) {
-        let ind: number = taskIndex;
-        console.log('index of task I clicked', this.tasks[ind]);
-
-        if (this.starredTasks.includes(this.tasks[ind])){
-            let elemToDel = this.starredTasks.indexOf(this.tasks[ind]);
-            this.starredTasks.splice(elemToDel, 1);
-        }
-
-        this.tasks.splice(taskIndex,1);
-        console.log(taskIndex);
-        console.log(this.tasks);
+    onlistTaskDelete (index: number) {
+        this.tasks.splice(index,1);
     }
-
-    ngDoCheck(){
-        this.totalTasks = this.tasks.length;
-        console.log("DO CHECK")
-        console.log('this.tasks.length', this.tasks.length);
-        console.log("this.staredTasks.length", this.starredTasks.length)
-      }
-
    
 
-    onlistTaskClicked(taskIndex: number) {
-        let ind: number = taskIndex;
-        if (this.starredTasks.includes(this.tasks[ind])){
-            let elemToDel = this.starredTasks.indexOf(this.tasks[ind]);
-            this.starredTasks.splice(elemToDel, 1);
+    onlistTaskClicked(index: number) {
+        this.doneTasks.push(this.tasks[index]);
+        this.tasks.splice(index,1);
+
+    }
+
+
+    toggleStarColor(starElement: HTMLElement, index: number) {
+        starElement.classList.toggle('active-star');
+        let task: TaskModel = this.tasks[index];
+        console.log('toggleStarColor TASK',task)
+        console.log( 'toggleStarColor ISTasksStarred?',task.isTasksStarred)
+        task.isTasksStarred = !task.isTasksStarred;
+        console.log( 'toggleStarColor ISTasksStarred?',task.isTasksStarred)
+
+
+        for (let task of this.tasks) {
+            if(task.isTasksStarred === true) {
+                this.starredTasks += 1;
+                console.log('ADDED 1 to STARRED');
+            } else  {
+                this.starredTasks -= 1;
+                console.log('DELETED 1 from STARRED');
+            }
         }
+     
+      
+      }
 
-        console.log('WE CLICKED ON: ',this.tasks[taskIndex]);
-        this.doneTasks.unshift(this.tasks[taskIndex]);
-        this.tasks.splice(taskIndex,1);
-        console.log('DONE: ',this.doneTasks);
-        console.log('TODO: ', this.tasks); 
-       
+
+
+    onlistDoneTaskClicked(index: number) {
+        this.tasks.push(this.doneTasks[index]);
+        this.doneTasks.splice(index,1);
     }
 
-    onEnterKey() {
-       this.onInputBlur(); 
-    }
-
+  
 }

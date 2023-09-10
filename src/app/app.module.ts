@@ -5,13 +5,11 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import {HttpClientModule} from "@angular/common/http";
-import { ChildComponent } from './child/child.component';
 import { TodolistComponent } from './todolist/todolist.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ChildComponent,
     TodolistComponent,
   ],
     imports: [
