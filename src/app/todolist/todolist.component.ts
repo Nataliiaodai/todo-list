@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl } from '@angular/forms';
-import { consoleTestResultHandler } from "tslint/lib/test";
 import { TaskModel } from "./task.model";
+import * as tls from "tls";
 
 @Component({
     selector: 'app-todolist',
@@ -12,10 +12,8 @@ export class TodolistComponent implements OnInit {
 
     constructor() { }
     tasks: TaskModel[] = [];
-
-    totalTasks: number;
-    starredTasks: number = 0;
-    doneTasks: TaskModel[] = [];
+    lastTaskId: number;
+    starredCount: number = 0;
     isChecked: boolean = true;
 
     myControl = new FormControl('');
@@ -25,31 +23,24 @@ export class TodolistComponent implements OnInit {
 
     ngOnInit() {
         this.myControl.valueChanges.subscribe((newValue) => {
-            console.log('Input value:', newValue);
           });
 
     }
 
-
     ngDoCheck(){
-        console.log('IN DO CHECK this.doneTasks', this.doneTasks);
-        console.log('IN DO CHECK this.tasks', this.tasks);
-            
-        this.totalTasks = this.tasks.length;
-             console.log('IN DO CHECK starredTasks----',this.starredTasks);
-    
+        // this.totalTasks = this.tasks.length;
+        // console.log('fooo');
       }
 
 
     onInputBlur() {
         let newTask: TaskModel = new TaskModel;
-
         if (this.inputValue) {
             newTask.taskName = this.inputValue;
-            newTask.taskId += 1;
-            TaskModel.lastId = newTask.taskId;
+            newTask.taskId = TaskModel.lastId ++;
             this.tasks.push(newTask);
-            console.log(this.tasks);
+            console.log('tasksLENGTH', this.tasks.length);
+            console.log('taskId', newTask.taskId)
         }
             this.inputValue = '';
     }
@@ -59,45 +50,86 @@ export class TodolistComponent implements OnInit {
      }
  
 
-    onlistTaskDelete (index: number) {
-        this.tasks.splice(index,1);
+    onListTaskDelete (id: number) {
+        for (let task of this.tasks) {
+            if (task.taskId === id) {
+                let ind: number = this.tasks.indexOf(task);
+                this.tasks.splice(ind,1);
+            }
+        }
+
+
+
     }
    
 
-    onlistTaskClicked(index: number) {
-        this.doneTasks.push(this.tasks[index]);
-        this.tasks.splice(index,1);
+    onListTaskClicked(id: number) {
+        let taskItem: TaskModel;
+
+        for (let task of this.tasks) {
+            if (task.taskId === id) {
+                // let ind: number = this.tasks.indexOf(task);
+                taskItem = task;
+                console.log('taskItem', taskItem.taskName);
+            }
+        }
+
+
+        for (let task of this.getAllTasks()) {
+            if (taskItem.taskId === task.taskId) {
+                taskItem.isDone = true;
+                console.log('taskItem.taskId', taskItem.taskId);
+            }
+        }
 
     }
 
+    toggleStar(task: TaskModel): void {
+        task.isStarred = !task.isStarred;
+        if (task.isStarred) {
+            this.starredCount++;
+        } else {
+            this.starredCount--;
+        }
+    }
 
-    toggleStarColor(starElement: HTMLElement, index: number) {
-        starElement.classList.toggle('active-star');
-        let task: TaskModel = this.tasks[index];
-        console.log('toggleStarColor TASK',task)
-        console.log( 'toggleStarColor ISTasksStarred?',task.isTasksStarred)
-        task.isTasksStarred = !task.isTasksStarred;
-        console.log( 'toggleStarColor ISTasksStarred?',task.isTasksStarred)
-
-
+    getAllTasks(){
+        let filteredTask: TaskModel[] = [];
         for (let task of this.tasks) {
-            if(task.isTasksStarred === true) {
-                this.starredTasks += 1;
-                console.log('ADDED 1 to STARRED');
-            } else  {
-                this.starredTasks -= 1;
-                console.log('DELETED 1 from STARRED');
+            if (task.isDone=== false) {
+                filteredTask.push(task);
             }
         }
-     
-      
-      }
+        return filteredTask;
+    }
+
+    getDoneTasks() {
+        let filteredTask: TaskModel[] = [];
+        for (let task of this.tasks) {
+            if (task.isDone=== true) {
+                filteredTask.push(task);
+            }
+        }
+        return filteredTask;
+    }
+
+    onListDoneTaskClicked(id: number) {
+
+        let doneTask: TaskModel;
+        for (let task of this.tasks) {
+            if (task.taskId === id) {
+                // let ind: number = this.tasks.indexOf(task);
+                doneTask = task;
+                console.log('doneTask', doneTask.taskName);
+            }
+        }
 
 
-
-    onlistDoneTaskClicked(index: number) {
-        this.tasks.push(this.doneTasks[index]);
-        this.doneTasks.splice(index,1);
+        for (let task of this.getDoneTasks()) {
+            if (doneTask.taskId === task.taskId) {
+                doneTask.isDone = false;
+            }
+        }
     }
 
   
