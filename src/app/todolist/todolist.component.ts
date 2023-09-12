@@ -12,7 +12,6 @@ export class TodolistComponent implements OnInit {
 
     constructor() { }
     tasks: TaskModel[] = [];
-    lastTaskId: number;
     starredCount: number = 0;
     isChecked: boolean = true;
 
@@ -55,10 +54,14 @@ export class TodolistComponent implements OnInit {
             if (task.taskId === id) {
                 let ind: number = this.tasks.indexOf(task);
                 this.tasks.splice(ind,1);
+
+                if (task.isStarred) {
+                    this.starredCount--;
+                    task.isStarred = false;
+                }
+
             }
         }
-
-
 
     }
    
@@ -68,18 +71,23 @@ export class TodolistComponent implements OnInit {
 
         for (let task of this.tasks) {
             if (task.taskId === id) {
-                // let ind: number = this.tasks.indexOf(task);
                 taskItem = task;
                 console.log('taskItem', taskItem.taskName);
             }
         }
 
-
         for (let task of this.getAllTasks()) {
             if (taskItem.taskId === task.taskId) {
                 taskItem.isDone = true;
-                console.log('taskItem.taskId', taskItem.taskId);
+                console.log('taskId', taskItem.taskId);
+
+                if (taskItem.isStarred) {
+                    this.starredCount--;
+                    taskItem.isStarred = false;
+                }
+
             }
+
         }
 
     }
@@ -109,6 +117,7 @@ export class TodolistComponent implements OnInit {
             if (task.isDone=== true) {
                 filteredTask.push(task);
             }
+
         }
         return filteredTask;
     }
