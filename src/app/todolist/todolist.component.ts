@@ -11,13 +11,12 @@ import {TaskService} from "./task.service";
 })
 export class TodolistComponent implements OnInit {
 
+    tasks: TaskModel[] = [];
+    starredCount: number = 0;
+    isChecked: boolean = true;
+    inputValue = '';
+    myControl = new FormControl('');
 
-    // tasks: TaskModel[] = [];
-    // starredCount: number = 0;
-    // isChecked: boolean = true;
-    //
-     myControl = new FormControl('');
-    // inputValue = '';
 
     constructor( public taskService: TaskService) { }
 
@@ -29,119 +28,135 @@ export class TodolistComponent implements OnInit {
 
 
 
-    onInput() {
-        this.taskService.onInputBlur();
-        // let newTask: TaskModel = new TaskModel;
-        // if (this.inputValue) {
-        //     newTask.taskName = this.inputValue;
-        //     newTask.taskId = TaskModel.lastId ++;
-        //     this.tasks.push(newTask);
-        //     console.log('tasksLENGTH', this.tasks.length);
-        //     console.log('taskId', newTask.taskId)
-        // }
-        //     this.inputValue = '';
+    onInputBlur() {
+        let newTask: TaskModel = new TaskModel;
+        if (this.inputValue) {
+            newTask.taskName = this.inputValue;
+
+            this.taskService.createTask(newTask).subscribe(
+                (response)=> {
+                    console.log('This Task was created--', JSON.stringify(response));
+                    this.onGetAllTasks();
+                }
+            )
+            console.log('newTask--' , newTask);
+            this.inputValue = '';
+            // this.onGetAllTasks();
+        }
     }
 
-    onEnterKey() {
-        this.taskService.onInputBlur();
-     }
- 
 
-    onDelete(id: number) {
-        this.taskService.onListTaskDelete(id);
-        // for (let task of this.tasks) {
-        //     if (task.taskId === id) {
-        //         let ind: number = this.tasks.indexOf(task);
-        //         this.tasks.splice(ind,1);
-        //
-        //         if (task.isStarred) {
-        //             this.starredCount--;
-        //             task.isStarred = false;
-        //         }
-        //
-        //     }
-        // }
 
+
+
+    onGetAllTasks() {
+        this.taskService.getTasks().subscribe(
+            (response) => {
+                // this.tasks.push(response);
+
+
+                this.tasks= response;
+                console.log('Next tasks was fetched from TASKS--', JSON.stringify(response));
+            }
+        );
     }
-   
 
-    onClick(id: number) {
-        this.taskService.onListTaskClicked(id);
-        // let taskItem: TaskModel;
-        //
-        // for (let task of this.tasks) {
-        //     if (task.taskId === id) {
-        //         taskItem = task;
-        //         console.log('taskItem', taskItem.taskName);
-        //     }
-        // }
-        //
-        // for (let task of this.getAllTasks()) {
-        //     if (taskItem.taskId === task.taskId) {
-        //         taskItem.isDone = true;
-        //         console.log('taskId', taskItem.taskId);
-        //
-        //         if (taskItem.isStarred) {
-        //             this.starredCount--;
-        //             taskItem.isStarred = false;
-        //         }
-        //
-        //     }
-        //
-        // }
+    onListTaskDelete(task: TaskModel) {
+        this.taskService.deleteTask(task).subscribe(
+            (response) => {
+                // this.tasks.push(response);
+                console.log('This Task was deleted -- ', JSON.stringify(response));
+                this.onGetAllTasks();
+            }
+        );
 
     }
 
-    toggleStar(task: TaskModel): void {
-        this.taskService.onToggleStar(task);
-        // task.isStarred = !task.isStarred;
-        // if (task.isStarred) {
-        //     this.starredCount++;
-        // } else {
-        //     this.starredCount--;
-        // }
+
+    onListTaskClicked(id: number) {
+        let taskItem: TaskModel;
+        for (let task of this.tasks) {
+            if (task.taskId === id) {
+                taskItem = task;
+                console.log('taskItem', taskItem.taskName);
+            }
+        }
+
+        for (let task of this.tasks) {
+            if (taskItem.taskId === task.taskId) {
+                taskItem.isDone = true;
+                console.log('taskId', taskItem.taskId);
+
+                if (taskItem.isStarred) {
+                    this.starredCount--;
+                    taskItem.isStarred = false;
+                }
+
+            }
+
+        }
+
     }
 
-    getAllTasks(){
-        this.taskService.onGetAllTasks();
-        // let filteredTask: TaskModel[] = [];
-        // for (let task of this.tasks) {
-        //     if (task.isDone=== false) {
-        //         filteredTask.push(task);
-        //     }
-        // }
-        // return filteredTask;
+    onSortTasksByDone():TaskModel[] {
+        let doneTasks: TaskModel[] = [];
+        for (let task of this.tasks){
+            if (task.isDone === true) {
+                doneTasks.push(task);
+            }
+        }
+        return doneTasks;
     }
 
-    getDoneTasks() {
-        this.taskService.onGetDoneTasks();
-        // let filteredTask: TaskModel[] = [];
-        // for (let task of this.tasks) {
-        //     if (task.isDone=== true) {
-        //         filteredTask.push(task);
-        //     }
-        //
-        // }
-        // return filteredTask;
+
+    onSortTasksByNotDone():TaskModel[] {
+        let notDoneTasks: TaskModel[] = [];
+        for (let task of this.tasks){
+            if (task.isDone === false) {
+                notDoneTasks.push(task);
+            }
+        }
+        return notDoneTasks;
+    }
+
+    onToggleStar(task: TaskModel): void {
+        task.isStarred = !task.isStarred;
+        if (task.isStarred) {
+            this.starredCount++;
+        } else {
+            this.starredCount--;
+        }
+    }
+
+
+
+    onGetDoneTasks() {
+        let filteredTask: TaskModel[] = [];
+        for (let task of this.tasks) {
+            if (task.isDone=== true) {
+                filteredTask.push(task);
+            }
+
+        }
+        return filteredTask;
     }
 
     onListDoneTaskClicked(id: number) {
-        this.taskService.onListDoneTaskClicked(id);
-        // let doneTask: TaskModel;
-        // for (let task of this.tasks) {
-        //     if (task.taskId === id) {
-        //         // let ind: number = this.tasks.indexOf(task);
-        //         doneTask = task;
-        //         console.log('doneTask', doneTask.taskName);
-        //     }
-        // }
-        //
-        //
-        // for (let task of this.getDoneTasks()) {
-        //     if (doneTask.taskId === task.taskId) {
-        //         doneTask.isDone = false;
-        //     }
-        // }
+        let doneTask: TaskModel;
+        for (let task of this.tasks) {
+            if (task.taskId === id) {
+                // let ind: number = this.tasks.indexOf(task);
+                doneTask = task;
+                console.log('doneTask', doneTask.taskName);
+            }
+        }
+
+
+        for (let task of this.onGetDoneTasks()) {
+            if (doneTask.taskId === task.taskId) {
+                doneTask.isDone = false;
+            }
+        }
     }
 
   

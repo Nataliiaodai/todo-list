@@ -1,5 +1,4 @@
 export class  TaskModel{
-    static lastId: number = 0;
     taskId: number;
     taskName: string;
     isDone: boolean;

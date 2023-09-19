@@ -1,125 +1,37 @@
 import { Injectable } from '@angular/core';
 import {TaskModel} from "./task.model";
 import {FormControl} from "@angular/forms";
+import {Observable} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import * as http from "http";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-  tasks: TaskModel[] = [];
-  starredCount: number = 0;
-  isChecked: boolean = true;
-
-  inputValue = '';
 
 
-  constructor() { }
 
+  constructor(private http: HttpClient) { }
 
-  onInputBlur() {
-    let newTask: TaskModel = new TaskModel;
-    if (this.inputValue) {
-      newTask.taskName = this.inputValue;
-      newTask.taskId = TaskModel.lastId ++;
-      this.tasks.push(newTask);
-      console.log('tasksLENGTH', this.tasks.length);
-      console.log('taskId', newTask.taskId)
-    }
-    this.inputValue = '';
+  createTask(taskToCreate: TaskModel): Observable<TaskModel>{
+    return this.http.post<TaskModel>('http://127.0.0.1:10000/tasks', taskToCreate);
   }
 
 
-  onListTaskDelete (id: number) {
-    for (let task of this.tasks) {
-      if (task.taskId === id) {
-        let ind: number = this.tasks.indexOf(task);
-        this.tasks.splice(ind,1);
 
-        if (task.isStarred) {
-          this.starredCount--;
-          task.isStarred = false;
-        }
-
-      }
-    }
-
+  updateTask(taskToUpdate: TaskModel):Observable<TaskModel> {
+    return this.http.put<TaskModel>('http://127.0.0.1:10000/tasks/' + taskToUpdate.taskId, taskToUpdate);
   }
 
 
-  onListTaskClicked(id: number) {
-    let taskItem: TaskModel;
-
-    for (let task of this.tasks) {
-      if (task.taskId === id) {
-        taskItem = task;
-        console.log('taskItem', taskItem.taskName);
-      }
-    }
-
-    for (let task of this.onGetAllTasks()) {
-      if (taskItem.taskId === task.taskId) {
-        taskItem.isDone = true;
-        console.log('taskId', taskItem.taskId);
-
-        if (taskItem.isStarred) {
-          this.starredCount--;
-          taskItem.isStarred = false;
-        }
-
-      }
-
-    }
-
+  deleteTask(taskToDelete: TaskModel):Observable<TaskModel> {
+    return this.http.delete<TaskModel>('http://127.0.0.1:10000/tasks/' + taskToDelete.taskId);
   }
 
-  onToggleStar(task: TaskModel): void {
-    task.isStarred = !task.isStarred;
-    if (task.isStarred) {
-      this.starredCount++;
-    } else {
-      this.starredCount--;
-    }
+  getTasks():Observable<TaskModel[]> {
+    return this.http.get<TaskModel[]>('http://127.0.0.1:10000/tasks' );
   }
-
-  onGetAllTasks(){
-    let filteredTask: TaskModel[] = [];
-    for (let task of this.tasks) {
-      if (task.isDone=== false) {
-        filteredTask.push(task);
-      }
-    }
-    return filteredTask;
-  }
-
-  onGetDoneTasks() {
-    let filteredTask: TaskModel[] = [];
-    for (let task of this.tasks) {
-      if (task.isDone=== true) {
-        filteredTask.push(task);
-      }
-
-    }
-    return filteredTask;
-  }
-
-  onListDoneTaskClicked(id: number) {
-
-    let doneTask: TaskModel;
-    for (let task of this.tasks) {
-      if (task.taskId === id) {
-        doneTask = task;
-        console.log('doneTask', doneTask.taskName);
-      }
-    }
-
-
-    for (let task of this.onGetDoneTasks()) {
-      if (doneTask.taskId === task.taskId) {
-        doneTask.isDone = false;
-      }
-    }
-  }
-
 
 
 }
