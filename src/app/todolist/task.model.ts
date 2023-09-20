@@ -1,12 +1,11 @@
 export class  TaskModel{
-    taskId: number;
+    taskId?: number;
     taskName: string;
     isDone: boolean;
     isStarred: boolean;
 
 
-    constructor(taskId: number = 0, taskName: string = '', isDone: boolean = false, isStarred: boolean = false) {
-        this.taskId = taskId;
+    constructor( taskName: string = '', isDone: boolean = false, isStarred: boolean = false) {
         this.taskName = taskName;
         this.isDone = isDone;
         this.isStarred = isStarred;

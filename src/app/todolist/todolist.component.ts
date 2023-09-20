@@ -62,7 +62,7 @@ export class TodolistComponent implements OnInit {
     }
 
     onListTaskDelete(task: TaskModel) {
-        this.taskService.deleteTask(task).subscribe(
+        this.taskService.deleteTask(task.taskId).subscribe(
             (response) => {
                 // this.tasks.push(response);
                 console.log('This Task was deleted -- ', JSON.stringify(response));

@@ -25,8 +25,8 @@ export class TaskService {
   }
 
 
-  deleteTask(taskToDelete: TaskModel):Observable<TaskModel> {
-    return this.http.delete<TaskModel>('http://127.0.0.1:10000/tasks/' + taskToDelete.taskId);
+  deleteTask(taskIdToDelete: number):Observable<TaskModel> {
+    return this.http.delete<TaskModel>('http://127.0.0.1:10000/tasks/' + taskIdToDelete);
   }
 
   getTasks():Observable<TaskModel[]> {
