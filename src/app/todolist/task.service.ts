@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {TaskModel} from "./task.model";
 import {FormControl} from "@angular/forms";
 import {Observable} from "rxjs";
@@ -6,32 +6,31 @@ import {HttpClient} from "@angular/common/http";
 import * as http from "http";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class TaskService {
 
 
+    constructor(private http: HttpClient) {
+    }
 
-  constructor(private http: HttpClient) { }
-
-  createTask(taskToCreate: TaskModel): Observable<TaskModel>{
-    return this.http.post<TaskModel>('http://127.0.0.1:10000/tasks', taskToCreate);
-  }
-
-
-
-  updateTask(taskToUpdate: TaskModel):Observable<TaskModel> {
-    return this.http.put<TaskModel>('http://127.0.0.1:10000/tasks/' + taskToUpdate.taskId, taskToUpdate);
-  }
+    createTask(taskToCreate: TaskModel): Observable<TaskModel> {
+        return this.http.post<TaskModel>('http://127.0.0.1:10000/tasks', taskToCreate);
+    }
 
 
-  deleteTask(taskIdToDelete: number):Observable<TaskModel> {
-    return this.http.delete<TaskModel>('http://127.0.0.1:10000/tasks/' + taskIdToDelete);
-  }
+    updateTask(taskToUpdate: TaskModel): Observable<TaskModel> {
+        return this.http.put<TaskModel>('http://127.0.0.1:10000/tasks/' + taskToUpdate.taskId, taskToUpdate);
+    }
 
-  getTasks():Observable<TaskModel[]> {
-    return this.http.get<TaskModel[]>('http://127.0.0.1:10000/tasks' );
-  }
+
+    deleteTask(taskIdToDelete: number): Observable<TaskModel> {
+        return this.http.delete<TaskModel>('http://127.0.0.1:10000/tasks/' + taskIdToDelete);
+    }
+
+    getTasks(): Observable<TaskModel[]> {
+        return this.http.get<TaskModel[]>('http://127.0.0.1:10000/tasks');
+    }
 
 
 }

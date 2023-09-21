@@ -10,8 +10,7 @@
     width: 100%;
     height: 100%;
     border-radius: 10px;
-    box-shadow:
-    inset 0 -3em 3em rgba(231, 219, 219, 0.1),
+    box-shadow: inset 0 -3em 3em rgba(231, 219, 219, 0.1),
     0 0 0 2px rgba(255, 255, 255, 0.798),
     0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
 }
@@ -22,7 +21,7 @@
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     padding: 15px 20px;
-} 
+}
 
 .todolist-tasks {
     width: 70%;
@@ -31,7 +30,7 @@
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     padding: 10px 20px;
-} 
+}
 
 
 .todolist-tasks-title {
@@ -40,16 +39,17 @@
     color: white;
     font-weight: 700;
 }
- .todolist-tasks-list {
+
+.todolist-tasks-list {
     overflow: auto;
     padding-left: 0;
     width: 100%;
     height: 32%;
- } 
+}
 
 .todolist-tasks-item {
     display: flex;
-    align-items: center; 
+    align-items: center;
     padding: 10px 15px;
     width: 100%;
     height: 47px;
@@ -65,7 +65,7 @@
 
 .todolist-tasks-input::placeholder {
     color: rgb(34, 33, 33);
-} 
+}
 
 
 .todolist-menu-list {
@@ -102,32 +102,32 @@
 }
 
 
-.form{
+.form {
     position: relative;
     width: 100%;
 }
 
-.form .fa-search{
+.form .fa-search {
     position: absolute;
-    top:20px;
+    top: 20px;
     left: 20px;
     color: #9ca3af;
     top: 7px;
     left: 156px;
 }
 
-.left-pan i{
-   padding-left: 10px;
+.left-pan i {
+    padding-left: 10px;
 }
 
-.form-input{
+.form-input {
     height: 30px;
     border-radius: 10px;
 }
 
-.form-input:focus{
+.form-input:focus {
     box-shadow: none;
-    border:none;
+    border: none;
 }
 
 
@@ -137,7 +137,7 @@
     height: 10%;
 }
 
-.todolist-newtasks-item{
+.todolist-newtasks-item {
     display: flex;
     align-items: center;
     padding: 10px 15px;
@@ -147,29 +147,29 @@
     margin-bottom: 1px;
     list-style: none;
     border-radius: 5px;
-    background-color:  rgb(64 96 211 / 75%);
+    background-color: rgb(64 96 211 / 75%);
 }
 
 .todolist-newtasks-item svg {
-    margin-right: 10px; 
+    margin-right: 10px;
     color: white;
     cursor: pointer;
 }
 
 
-.todolist-newtasks-input{
-     width: 100%;
-     background-color: transparent;
-     color:white;
-     border:none;
+.todolist-newtasks-input {
+    width: 100%;
+    background-color: transparent;
+    color: white;
+    border: none;
 }
 
 .todolist-newtasks-input::placeholder {
-    color:white;
+    color: white;
 }
 
 .todolist-newtasks-input:focus {
-    outline:none;
+    outline: none;
 }
 
 
@@ -194,13 +194,13 @@
 
 
 .todolist-tasks-item svg {
-    margin-right: 10px; 
+    margin-right: 10px;
     color: rgb(144 138 138);
     width: 17px;
     height: 17px;
     cursor: pointer;
 }
-   
+
 
 .todolist-donetasks-input {
     width: 100%;
@@ -210,7 +210,7 @@
 
 .todolist-donetasks-input::placeholder {
     color: gray;
-} 
+}
 
 .task-title {
     color: white;
@@ -233,13 +233,13 @@
 .star {
     cursor: pointer;
     color: gray;
-  }
-  
-  .active-star {
-    color: rgb(255, 174, 0); 
-  }
+}
 
-  .tipText {
-    color:white;
+.active-star {
+    color: rgb(255, 174, 0);
+}
+
+.tipText {
+    color: white;
     font-size: medium;
-  }
+}
