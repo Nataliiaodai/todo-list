@@ -5,8 +5,9 @@
         <div class="todolist-menu">
             <div class="form">
                 <i class="fa fa-search"></i>
-                <input type="text" class="form-control form-input" placeholder="Search anything...">
+                <input [(ngModel)]="searchValue" (input)="onTaskSearchFilter()" type="text" class="form-control form-input" placeholder="Search anything...">
             </div>
+            <button type="button" class="todolist-menu-form-dropFilters btn btn-light" (click)="onGettingAllTasks()">Drop All Filters</button>
 
             <ul class="todolist-menu-list">
                 <li class="todolist-menu-item">

@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, SimpleChanges} from "@angular/core";
 import {FormControl} from '@angular/forms';
 import {TaskModel} from "./task.model";
 import {TaskService} from "./task.service";
@@ -15,15 +15,38 @@ export class TodolistComponent implements OnInit {
     starredCount: number = 0;
     isChecked: boolean = true;
     inputValue = '';
-    myControl = new FormControl('');
+    searchValue = '';
+    myInputValueControl = new FormControl('');
+    mySearchValueControl = new FormControl('');
 
 
-    constructor(public taskService: TaskService) {
-    }
+    constructor(public taskService: TaskService) {}
 
     ngOnInit() {
-        this.myControl.valueChanges.subscribe((newValue) => {
+        this.myInputValueControl.valueChanges.subscribe((newValue) => {
         });
+        this.mySearchValueControl.valueChanges.subscribe(()=> {
+        });
+
+    }
+
+    onTaskSearchFilter() {
+
+          let newTasklist: TaskModel[] = this.tasks.filter(task => task.taskName.toLowerCase().includes(this.searchValue.toLowerCase() ) );
+        // for (let task of this.tasks) {
+        //     console.log('all Iterating task', this.tasks);
+        //     console.log('task I want to find--', this.searchValue.toLowerCase());
+        //     console.log('task I compare with--', task.taskName.toLowerCase());
+        //     if (task.taskName.toLowerCase().includes(this.searchValue.toLowerCase()) ) {
+        //         console.log('task that equals TO what I SEARSH--', task.taskName);
+        //          newTasklist.push(task);
+        //     }
+        //
+        // }
+        console.log('newTasklist', newTasklist);
+        // return newTasklist;
+
+        return newTasklist;
 
     }
 
@@ -36,6 +59,8 @@ export class TodolistComponent implements OnInit {
             this.inputValue = '';
         }
     }
+
+
 
     onCreatingNewTask(newTask: TaskModel) {
         this.taskService.createTask(newTask).subscribe(
@@ -100,7 +125,7 @@ export class TodolistComponent implements OnInit {
 
     onSortTasksByDone(): TaskModel[] {
         let doneTasks: TaskModel[] = [];
-        for (let task of this.tasks) {
+        for (let task of this.onTaskSearchFilter()) {
             if (task.isDone === true) {
                 doneTasks.push(task);
             }
@@ -111,7 +136,7 @@ export class TodolistComponent implements OnInit {
 
     onSortTasksByNotDone(): TaskModel[] {
         let notDoneTasks: TaskModel[] = [];
-        for (let task of this.tasks) {
+        for (let task of this.onTaskSearchFilter()) {
             if (task.isDone === false) {
                 notDoneTasks.push(task);
             }

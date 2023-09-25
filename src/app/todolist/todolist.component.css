@@ -23,6 +23,12 @@
     padding: 15px 20px;
 }
 
+.todolist-menu-form-dropFilters {
+    align-items: center;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
 .todolist-tasks {
     width: 70%;
     height: inherit;
@@ -112,6 +118,7 @@
     top: 20px;
     left: 20px;
     color: #9ca3af;
+    cursor: pointer;
     top: 7px;
     left: 156px;
 }
