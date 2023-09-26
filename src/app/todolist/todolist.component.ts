@@ -20,34 +20,22 @@ export class TodolistComponent implements OnInit {
     mySearchValueControl = new FormControl('');
 
 
-    constructor(public taskService: TaskService) {}
+    constructor(public taskService: TaskService) {
+    }
 
     ngOnInit() {
         this.myInputValueControl.valueChanges.subscribe((newValue) => {
         });
-        this.mySearchValueControl.valueChanges.subscribe(()=> {
+        this.mySearchValueControl.valueChanges.subscribe(() => {
         });
+        this.onGettingAllTasks();
 
     }
 
     onTaskSearchFilter() {
-
-          let newTasklist: TaskModel[] = this.tasks.filter(task => task.taskName.toLowerCase().includes(this.searchValue.toLowerCase() ) );
-        // for (let task of this.tasks) {
-        //     console.log('all Iterating task', this.tasks);
-        //     console.log('task I want to find--', this.searchValue.toLowerCase());
-        //     console.log('task I compare with--', task.taskName.toLowerCase());
-        //     if (task.taskName.toLowerCase().includes(this.searchValue.toLowerCase()) ) {
-        //         console.log('task that equals TO what I SEARSH--', task.taskName);
-        //          newTasklist.push(task);
-        //     }
-        //
-        // }
-        console.log('newTasklist', newTasklist);
-        // return newTasklist;
-
-        return newTasklist;
-
+        return this.tasks.filter(task =>
+            task.taskName.toLowerCase().includes(this.searchValue.toLowerCase()
+            ));
     }
 
 
@@ -61,7 +49,6 @@ export class TodolistComponent implements OnInit {
     }
 
 
-
     onCreatingNewTask(newTask: TaskModel) {
         this.taskService.createTask(newTask).subscribe(
             (response) => {
@@ -73,6 +60,7 @@ export class TodolistComponent implements OnInit {
     }
 
     onGettingAllTasks() {
+        this.searchValue = '';
         this.taskService.getTasks().subscribe(
             (response) => {
                 this.tasks = response;
