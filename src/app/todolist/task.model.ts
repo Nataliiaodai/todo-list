@@ -1,5 +1,5 @@
 export class TaskModel {
-    taskId?: number;
+    taskId?: string;
     taskName: string;
     isDone?: boolean;
     isStarred?: boolean;

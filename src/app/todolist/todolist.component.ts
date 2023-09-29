@@ -1,4 +1,4 @@
-import {Component, OnInit, SimpleChanges} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {FormControl} from '@angular/forms';
 import {TaskModel} from "./task.model";
 import {TaskService} from "./task.service";
@@ -24,7 +24,7 @@ export class TodolistComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.myInputValueControl.valueChanges.subscribe((newValue) => {
+        this.myInputValueControl.valueChanges.subscribe(() => {
         });
         this.mySearchValueControl.valueChanges.subscribe(() => {
         });
@@ -52,11 +52,10 @@ export class TodolistComponent implements OnInit {
     onCreatingNewTask(newTask: TaskModel) {
         this.taskService.createTask(newTask).subscribe(
             (response) => {
-                console.log('This Task was created--', JSON.stringify(response));
                 this.onGettingAllTasks();
             }
         )
-        console.log('newTask--', newTask);
+        // console.log('newTask--', newTask);
     }
 
     onGettingAllTasks() {
@@ -64,7 +63,7 @@ export class TodolistComponent implements OnInit {
         this.taskService.getTasks().subscribe(
             (response) => {
                 this.tasks = response;
-                console.log('Next tasks was fetched from TASKS--', JSON.stringify(response));
+                console.log(response);
             }
         );
     }
@@ -72,7 +71,6 @@ export class TodolistComponent implements OnInit {
     onUpdateTask(task: TaskModel) {
         this.taskService.updateTask(task).subscribe(
             (response) => {
-                console.log('Tasks was update TO--', JSON.stringify(response));
                 this.onGettingAllTasks();
             }
         );
@@ -81,14 +79,14 @@ export class TodolistComponent implements OnInit {
     onDeletingTask(task: TaskModel) {
         this.taskService.deleteTask(task.taskId).subscribe(
             (response) => {
-                console.log('This Task was deleted -- ', JSON.stringify(response));
+                console.log('ON onDeletingTask METHOD taskID--', task.taskId);
                 this.onGettingAllTasks();
             }
         );
+        console.log('ON onDeletingTask METHOD taskID--', task.taskId);
     }
 
     onBasketClick(task: TaskModel) {
-        console.log('is task to delete isStarred --', task.isStarred);
         if (task.isStarred === true) {
             this.starredCount -= 1;
             task.isStarred = false;
@@ -100,8 +98,6 @@ export class TodolistComponent implements OnInit {
 
 
     onTaskCheckClicked(task: TaskModel) {
-        console.log('Clicked Task---', task);
-
         task.isDone = true;
         if (task.isStarred) {
             this.starredCount--;
@@ -133,24 +129,20 @@ export class TodolistComponent implements OnInit {
     }
 
     onToggleStar(task: TaskModel): void {
-        console.log('is task isStarred before change--', task.isStarred);
+
         task.isStarred = !task.isStarred;
         this.onUpdateTask(task);
-        console.log('is task isStarred after change--', task.isStarred);
+
         if (task.isStarred) {
-            console.log('this.starredCount before ++ count--', this.starredCount);
             this.starredCount++;
 
         } else {
             this.starredCount--;
         }
-        console.log('this.starredCount after all--', this.starredCount);
     }
 
 
     onDoneTaskCheckClicked(task: TaskModel) {
-        console.log('Done Task that Clicked--', task);
-        console.log('Is Done Task that Clicked isDone? --', task.isDone);
         task.isDone = false;
         this.onUpdateTask(task);
     }
