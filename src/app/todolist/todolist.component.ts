@@ -32,6 +32,20 @@ export class TodolistComponent implements OnInit {
 
     }
 
+    onGetFormattedDate(date: Date) {
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        const seconds = date.getSeconds();
+
+        const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+        return formattedDate;
+
+    }
+
     onTaskSearchFilter() {
         return this.tasks.filter(task =>
             task.taskName.toLowerCase().includes(this.searchValue.toLowerCase()
@@ -55,7 +69,9 @@ export class TodolistComponent implements OnInit {
                 this.onGettingAllTasks();
             }
         )
-        // console.log('newTask--', newTask);
+
+        console.log("createdDate---", this.onGetFormattedDate(newTask.createdDate));
+        console.log("updatedDate---", this.onGetFormattedDate(newTask.updatedDate));
     }
 
     onGettingAllTasks() {
@@ -69,9 +85,12 @@ export class TodolistComponent implements OnInit {
     }
 
     onUpdateTask(task: TaskModel) {
+        task.updatedDate = new Date();
         this.taskService.updateTask(task).subscribe(
             (response) => {
                 this.onGettingAllTasks();
+                console.log("updatedDate---", this.onGetFormattedDate( task.updatedDate));
+
             }
         );
     }

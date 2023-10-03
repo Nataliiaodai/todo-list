@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
 import {TaskModel} from "./task.model";
-import {FormControl} from "@angular/forms";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import * as http from "http";
 
 @Injectable({
     providedIn: 'root'

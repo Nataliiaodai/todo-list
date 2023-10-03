@@ -1,7 +1,7 @@
 .todolist-container {
-    font-size: medium;
-    width: 800px;
-    height: 550px;
+    font-size: 14px;
+    width: 1015px;
+    height: 630px;
     padding: 15px 15px 20px 20px;
 }
 
@@ -30,7 +30,7 @@
 }
 
 .todolist-tasks {
-    width: 70%;
+    width: 80%;
     height: inherit;
     background-color: rgb(64 96 211 / 75%);
     border-top-right-radius: 10px;
@@ -50,21 +50,27 @@
     overflow: auto;
     padding-left: 0;
     width: 100%;
-    height: 32%;
+    height: 34%;
 }
 
 .todolist-tasks-item {
     display: flex;
+    flex-direction: row;
     align-items: center;
     padding: 10px 15px;
-    width: 100%;
-    height: 47px;
+    /*width: inherit;*/
+    width: 693px;
+    height: 58px;
     background-color: white;
     margin-bottom: 1px;
     list-style: none;
     border-radius: 5px;
 }
 
+.todolist-tasks-date-container{
+    display: flex;
+    font-size: small;
+}
 .todolist-tasks-input {
     width: 100%;
 }
@@ -141,7 +147,7 @@
 .todolist-newtasks-list {
     padding-left: 0;
     width: 100%;
-    height: 10%;
+    height: 5%;
 }
 
 .todolist-newtasks-item {
@@ -184,7 +190,7 @@
     overflow: auto;
     padding-left: 0;
     width: 100%;
-    height: 32%;
+    height: 34%;
 }
 
 .todolist-donetasks-item {
@@ -192,7 +198,7 @@
     align-items: center;
     padding: 10px 15px;
     width: 100%;
-    height: 47px;
+    height: 58px;
     background-color: white;
     margin-bottom: 1px;
     list-style: none;
@@ -226,6 +232,7 @@
     padding: 3px 4px;
     border-radius: 5px;
     font-size: 12px;
+    height: 20px;
 }
 
 
@@ -248,5 +255,6 @@
 
 .tipText {
     color: white;
-    font-size: medium;
+    font-size: 13px;
+
 }
