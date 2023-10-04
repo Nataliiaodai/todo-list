@@ -34,42 +34,59 @@
             </ul>
         </div>
 
+
+        <!--        <table>-->
+        <!--            <tr>-->
+        <!--                <td>Dscsdc</td>-->
+        <!--                <td>Knocky</td>-->
+        <!--                <td>Flor</td>-->
+        <!--                <td>Ella</td>-->
+        <!--                <td>Juan</td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td>Breed</td>-->
+        <!--                <td>Jack Russell</td>-->
+        <!--                <td>Poodle</td>-->
+        <!--                <td>Streetdog</td>-->
+        <!--                <td>Cocker Spaniel</td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td>Age</td>-->
+        <!--                <td>16</td>-->
+        <!--                <td>9</td>-->
+        <!--                <td>10</td>-->
+        <!--                <td>5</td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td>Owner</td>-->
+        <!--                <td>Mother-in-law</td>-->
+        <!--                <td>Me</td>-->
+        <!--                <td>Me</td>-->
+        <!--                <td>Sister-in-law</td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td>Eating Habits</td>-->
+        <!--                <td>Eats everyone's leftovers</td>-->
+        <!--                <td>Nibbles at food</td>-->
+        <!--                <td>Hearty eater</td>-->
+        <!--                <td>Will eat till he explodes</td>-->
+        <!--            </tr>-->
+        <!--        </table>-->
+
+
         <div class="todolist-tasks">
             <h4 class="todolist-tasks-title">Tasks</h4>
 
             <div class="todolist-tasks-container">
                 <p class="tipText" *ngIf="tasks.length === 0">There are no tasks yet! Create one.</p>
-
-                <table style="width: 100%">
-                    <thead style="display: flex;padding: 0 15px 0 15px; color: white; height: 25px; font-size: 15px">
-                    <tr style="margin-right: 45px;">
-                        <th>Created/</th>
-                        <th> Updated</th>
-                    </tr>
-                    <tr style="margin-right: 55px;">
-                        <th>Delete</th>
-                    </tr>
-                    <tr style="margin-right: 130px;">
-                        <th>Done</th>
-                    </tr>
-                    <tr style="margin-right: 130px;">
-                        <th>Task</th>
-                    </tr>
-                    <tr>
-                        <th>Starr</th>
-                    </tr>
-                    </thead>
-                </table>
                 <h5 class="task-title">To Do:</h5>
+
                 <div class="todolist-tasks-list">
-
-                    <table style="width: 100%">
-                        <tbody class="todolist-tasks-item" *ngFor="let task of onSortTasksByNotDone(); let i = index">
-
-                        <tr style="width: 663px; display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
-                            <td style="font-size: 10px">
-                                <p>CRT: {{task.createdDate | date:'short'}}</p>
-                                <p>UPD: {{task.updatedDate | date:'short'}}</p>
+                    <table>
+                        <tr class="todolist-tasks-item" *ngFor="let task of onSortTasksByNotDone(); let i = index">
+                            <td style="font-size: 10px; width: 130px; ">
+                                <p class="todolist-tasks-item-date">CRT: {{task.createdDate | date:'short'}}</p>
+                                <p class="todolist-tasks-item-date">UPD: {{task.updatedDate | date:'short'}}</p>
                             </td>
 
                             <td>
@@ -103,13 +120,11 @@
                                 </svg>
                             </td>
                         </tr>
-                        </tbody>
                     </table>
-
                 </div>
+
                 <h5 class="task-title">Completed:</h5>
                 <div class="todolist-donetasks-list">
-
 
                     <p class="tipText" *ngIf="onSortTasksByDone().length === 0">You don't have completed tasks yet!</p>
 
@@ -117,9 +132,9 @@
                         <tbody class="todolist-donetasks-item" *ngFor="let doneTask of onSortTasksByDone()">
 
                         <tr style="width: 663px; display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
-                            <td style="font-size: 10px">
-                                <p>CRT: {{doneTask.createdDate | date:'short'}}</p>
-                                <p>UPD: {{doneTask.updatedDate | date:'short'}}</p>
+                            <td style="font-size: 10px; width: 130px;">
+                                <p class="todolist-donetasks-item-date">CRT: {{doneTask.createdDate | date:'short'}}</p>
+                                <p class="todolist-donetasks-item-date">UPD: {{doneTask.updatedDate | date:'short'}}</p>
                             </td>
 
                             <td>
@@ -133,13 +148,11 @@
                             <td>
                                 <input [checked]="isChecked" (click)="onDoneTaskCheckClicked(doneTask)" type="checkbox"
                                        class="checkbox"/>
-
                             </td>
                             <td>
                                 <input style="border: none;" placeholder="{{doneTask.taskName}}"
                                        class="todolist-donetasks-input"/>
                             </td>
-
                             <td>
                                 <svg (click)="onToggleStar(doneTask)" *ngIf="!doneTask.isStarred"
                                      xmlns="http://www.w3.org/2000/svg"
@@ -157,10 +170,7 @@
 
                         </tr>
                         </tbody>
-
                     </table>
-
-
                 </div>
 
 

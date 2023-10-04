@@ -118,10 +118,11 @@ export class TodolistComponent implements OnInit {
 
     onTaskCheckClicked(task: TaskModel) {
         task.isDone = true;
-        if (task.isStarred) {
-            this.starredCount--;
-            task.isStarred = false;
-        }
+        // if (task.isStarred) {
+        //     this.starredCount--;
+        //     task.isStarred = false;
+        // }
+
         this.onUpdateTask(task);
 
     }
