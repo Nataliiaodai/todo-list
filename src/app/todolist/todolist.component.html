@@ -5,16 +5,16 @@
         <div class="todolist-menu">
             <div class="form">
                 <i class="fa fa-search"></i>
-                <input [(ngModel)]="searchValue" autocomplete="off" (input)="onTaskSearchFilter()" type="text"
+                <input [(ngModel)]="searchValue" autocomplete="off" (input)="searchTaskFilter()" type="text"
                        class="form-control form-input" placeholder="Search anything...">
             </div>
-            <button type="button" class="todolist-menu-form-dropFilters btn btn-light" (click)="onGettingAllTasks()">
+            <button type="button" class="todolist-menu-form-dropFilters btn btn-light" (click)="getAllTasks()">
                 Drop All Filters
             </button>
 
             <ul class="todolist-menu-list">
                 <li class="todolist-menu-item">
-                    <a class="todolist-menu-link">Tasks</a> <span>{{onSortTasksByNotDone().length}}</span>
+                    <a class="todolist-menu-link">Tasks</a> <span>{{filterTasksByNotDone().length}}</span>
                 </li>
                 <li class="todolist-menu-item">
                     <a class="todolist-menu-link">My day</a>
@@ -35,84 +35,55 @@
         </div>
 
 
-        <!--        <table>-->
-        <!--            <tr>-->
-        <!--                <td>Dscsdc</td>-->
-        <!--                <td>Knocky</td>-->
-        <!--                <td>Flor</td>-->
-        <!--                <td>Ella</td>-->
-        <!--                <td>Juan</td>-->
-        <!--            </tr>-->
-        <!--            <tr>-->
-        <!--                <td>Breed</td>-->
-        <!--                <td>Jack Russell</td>-->
-        <!--                <td>Poodle</td>-->
-        <!--                <td>Streetdog</td>-->
-        <!--                <td>Cocker Spaniel</td>-->
-        <!--            </tr>-->
-        <!--            <tr>-->
-        <!--                <td>Age</td>-->
-        <!--                <td>16</td>-->
-        <!--                <td>9</td>-->
-        <!--                <td>10</td>-->
-        <!--                <td>5</td>-->
-        <!--            </tr>-->
-        <!--            <tr>-->
-        <!--                <td>Owner</td>-->
-        <!--                <td>Mother-in-law</td>-->
-        <!--                <td>Me</td>-->
-        <!--                <td>Me</td>-->
-        <!--                <td>Sister-in-law</td>-->
-        <!--            </tr>-->
-        <!--            <tr>-->
-        <!--                <td>Eating Habits</td>-->
-        <!--                <td>Eats everyone's leftovers</td>-->
-        <!--                <td>Nibbles at food</td>-->
-        <!--                <td>Hearty eater</td>-->
-        <!--                <td>Will eat till he explodes</td>-->
-        <!--            </tr>-->
-        <!--        </table>-->
-
-
         <div class="todolist-tasks">
             <h4 class="todolist-tasks-title">Tasks</h4>
 
             <div class="todolist-tasks-container">
                 <p class="tipText" *ngIf="tasks.length === 0">There are no tasks yet! Create one.</p>
-                <h5 class="task-title">To Do:</h5>
+                <div class="todolist-tasks-top-select-container">
+                    <h5 class="task-title">To Do:</h5>
+                    <select class="form-select todolist-tasks-top-select" aria-label="Default select example"  [(ngModel)]="selectedOption">
+                        <option value="Newly created">Newly created</option>
+                        <option value="Newly updated">Newly updated</option>
+                        <option value="Old created">Old created</option>
+                        <option value="Old updated">Old updated</option>
+                    </select>
+                </div>
+
 
                 <div class="todolist-tasks-list">
                     <table>
-                        <tr class="todolist-tasks-item" *ngFor="let task of onSortTasksByNotDone(); let i = index">
-                            <td style="font-size: 10px; width: 130px; ">
-                                <p class="todolist-tasks-item-date">CRT: {{task.createdDate | date:'short'}}</p>
-                                <p class="todolist-tasks-item-date">UPD: {{task.updatedDate | date:'short'}}</p>
+                        <tr class="todolist-tasks-item" *ngFor="let task of filterTasksByNotDone(); let i = index">
+                            <td class="todolist-tasks-item-date-container">
+                                <span class="todolist-tasks-item-date">CRT: {{task.createdDate | date:'short'}}</span>
+                                <br>
+                                <span class="todolist-tasks-item-date">UPD: {{task.updatedDate | date:'short'}}</span>
                             </td>
 
                             <td>
-                                <svg xmlns="http://www.w3.org/2000/svg" (click)="onBasketClick(task)"
+                                <svg xmlns="http://www.w3.org/2000/svg" (click)="starrCheck(task)"
                                      fill="currentColor"
-                                     class="bi bi-trash" viewBox="0 0 16 16" style="width: 10px; height: 10px">
+                                     class="bi bi-trash" viewBox="0 0 16 16" style="width: 15px; height: 15px">
                                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
                                     <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
                                 </svg>
                             </td>
                             <td>
-                                <input (click)="onTaskCheckClicked(task)" type="checkbox" class="checkbox"/>
+                                <input (click)="gettingTaskDone(task)" type="checkbox" class="checkbox"/>
 
                             </td>
-                            <td>
-                                <input style="border: none; " placeholder="{{task.taskName}}"
+                            <td style="width: 400px;">
+                                <input style="border: none; " [(ngModel)]="task.taskName" (change)="onInputChange($event, task)"
                                        class="todolist-tasks-input"/>
                             </td>
                             <td>
-                                <svg (click)="onToggleStar(task)" *ngIf="!task.isStarred"
+                                <svg (click)="toggleTaskStar(task)" *ngIf="!task.isStarred"
                                      xmlns="http://www.w3.org/2000/svg"
                                      width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
                                     <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
                                 </svg>
 
-                                <svg (click)="onToggleStar(task)" *ngIf="task.isStarred"
+                                <svg (click)="toggleTaskStar(task)" *ngIf="task.isStarred"
                                      xmlns="http://www.w3.org/2000/svg"
                                      width="16" height="16" fill="currentColor" class="bi bi-star-fill"
                                      viewBox="0 0 16 16">
@@ -126,41 +97,42 @@
                 <h5 class="task-title">Completed:</h5>
                 <div class="todolist-donetasks-list">
 
-                    <p class="tipText" *ngIf="onSortTasksByDone().length === 0">You don't have completed tasks yet!</p>
+                    <p class="tipText" *ngIf="filterTasksByDone().length === 0">You don't have completed tasks yet!</p>
 
                     <table style="width: 100%">
-                        <tbody class="todolist-donetasks-item" *ngFor="let doneTask of onSortTasksByDone()">
+                        <tbody class="todolist-donetasks-item" *ngFor="let doneTask of filterTasksByDone()">
 
                         <tr style="width: 663px; display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
-                            <td style="font-size: 10px; width: 130px;">
-                                <p class="todolist-donetasks-item-date">CRT: {{doneTask.createdDate | date:'short'}}</p>
-                                <p class="todolist-donetasks-item-date">UPD: {{doneTask.updatedDate | date:'short'}}</p>
+                            <td class="todolist-donetasks-item-date-container">
+                                <span class="todolist-donetasks-item-date">CRT: {{doneTask.createdDate | date:'short'}}</span>
+                                <br>
+                                <span class="todolist-donetasks-item-date">UPD: {{doneTask.updatedDate | date:'short'}}</span>
                             </td>
 
                             <td>
-                                <svg xmlns="http://www.w3.org/2000/svg" (click)="onBasketClick(doneTask)"
+                                <svg xmlns="http://www.w3.org/2000/svg" (click)="starrCheck(doneTask)"
                                      fill="currentColor"
-                                     class="bi bi-trash" viewBox="0 0 16 16" style="width: 10px; height: 10px">
+                                     class="bi bi-trash" viewBox="0 0 16 16" style="width: 15px; height: 15px">
                                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
                                     <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
                                 </svg>
                             </td>
                             <td>
-                                <input [checked]="isChecked" (click)="onDoneTaskCheckClicked(doneTask)" type="checkbox"
+                                <input [checked]="isChecked" (click)="removeTaskFromDone(doneTask)" type="checkbox"
                                        class="checkbox"/>
                             </td>
-                            <td>
-                                <input style="border: none;" placeholder="{{doneTask.taskName}}"
+                            <td style="width: 400px;">
+                                <input style="border: none;" [(ngModel)]="doneTask.taskName" (change)="onInputChange($event, doneTask)"
                                        class="todolist-donetasks-input"/>
                             </td>
                             <td>
-                                <svg (click)="onToggleStar(doneTask)" *ngIf="!doneTask.isStarred"
+                                <svg (click)="toggleTaskStar(doneTask)" *ngIf="!doneTask.isStarred"
                                      xmlns="http://www.w3.org/2000/svg"
                                      width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
                                     <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
                                 </svg>
 
-                                <svg (click)="onToggleStar(doneTask)" *ngIf="doneTask.isStarred"
+                                <svg (click)="toggleTaskStar(doneTask)" *ngIf="doneTask.isStarred"
                                      xmlns="http://www.w3.org/2000/svg"
                                      width="16" height="16" fill="currentColor" class="bi bi-star-fill"
                                      viewBox="0 0 16 16">

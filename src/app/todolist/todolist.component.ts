@@ -14,25 +14,34 @@ export class TodolistComponent implements OnInit {
     tasks: TaskModel[] = [];
     starredCount: number = 0;
     isChecked: boolean = true;
-    inputValue = '';
-    searchValue = '';
-    myInputValueControl = new FormControl('');
-    mySearchValueControl = new FormControl('');
-
+    inputValue: string = '';
+    searchValue: string = '';
+    // myInputValueControl = new FormControl('');
+    // mySearchValueControl = new FormControl('');
+    selectedOption: string = 'Newly created';
 
     constructor(public taskService: TaskService) {
     }
 
     ngOnInit() {
-        this.myInputValueControl.valueChanges.subscribe(() => {
-        });
-        this.mySearchValueControl.valueChanges.subscribe(() => {
-        });
-        this.onGettingAllTasks();
-
+        // this.myInputValueControl.valueChanges.subscribe(() => {
+        // });
+        // this.mySearchValueControl.valueChanges.subscribe(() => {
+        // });
+        this.getAllTasks();
+        // console.log('CREATED DATES--', this.tasks.map(task => task.createdDate));
     }
 
-    onGetFormattedDate(date: Date) {
+
+    onInputChange (event: Event, taskToChangeName: TaskModel) {
+        const newValue = (event.target as HTMLInputElement).value;
+        if ( newValue !== ''){
+            taskToChangeName.taskName = newValue;
+            this.onUpdateTask(taskToChangeName);
+        } else this.getAllTasks();
+    }
+
+    formatDate(date: Date) {
         const year = date.getFullYear();
         const month = date.getMonth() + 1;
         const day = date.getDate();
@@ -40,13 +49,10 @@ export class TodolistComponent implements OnInit {
         const minutes = date.getMinutes();
         const seconds = date.getSeconds();
 
-        const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-
-        return formattedDate;
-
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     }
 
-    onTaskSearchFilter() {
+    searchTaskFilter() {
         return this.tasks.filter(task =>
             task.taskName.toLowerCase().includes(this.searchValue.toLowerCase()
             ));
@@ -57,24 +63,21 @@ export class TodolistComponent implements OnInit {
         let newTask: TaskModel = new TaskModel;
         if (this.inputValue) {
             newTask.taskName = this.inputValue;
-            this.onCreatingNewTask(newTask);
+            this.createNewTask(newTask);
             this.inputValue = '';
         }
     }
 
 
-    onCreatingNewTask(newTask: TaskModel) {
+    createNewTask(newTask: TaskModel) {
         this.taskService.createTask(newTask).subscribe(
             (response) => {
-                this.onGettingAllTasks();
+                this.getAllTasks();
             }
         )
-
-        console.log("createdDate---", this.onGetFormattedDate(newTask.createdDate));
-        console.log("updatedDate---", this.onGetFormattedDate(newTask.updatedDate));
     }
 
-    onGettingAllTasks() {
+    getAllTasks() {
         this.searchValue = '';
         this.taskService.getTasks().subscribe(
             (response) => {
@@ -88,9 +91,8 @@ export class TodolistComponent implements OnInit {
         task.updatedDate = new Date();
         this.taskService.updateTask(task).subscribe(
             (response) => {
-                this.onGettingAllTasks();
-                console.log("updatedDate---", this.onGetFormattedDate( task.updatedDate));
-
+                this.getAllTasks();
+                console.log("updatedDate---", this.formatDate(task.updatedDate));
             }
         );
     }
@@ -99,13 +101,13 @@ export class TodolistComponent implements OnInit {
         this.taskService.deleteTask(task.taskId).subscribe(
             (response) => {
                 console.log('ON onDeletingTask METHOD taskID--', task.taskId);
-                this.onGettingAllTasks();
+                this.getAllTasks();
             }
         );
         console.log('ON onDeletingTask METHOD taskID--', task.taskId);
     }
 
-    onBasketClick(task: TaskModel) {
+    starrCheck(task: TaskModel) {
         if (task.isStarred === true) {
             this.starredCount -= 1;
             task.isStarred = false;
@@ -116,40 +118,79 @@ export class TodolistComponent implements OnInit {
     }
 
 
-    onTaskCheckClicked(task: TaskModel) {
+    gettingTaskDone(task: TaskModel) {
         task.isDone = true;
-        // if (task.isStarred) {
-        //     this.starredCount--;
-        //     task.isStarred = false;
-        // }
-
         this.onUpdateTask(task);
 
     }
 
-    onSortTasksByDone(): TaskModel[] {
+    sortTaskByDate(tasksToSort: TaskModel[]) {
+        let sortedTasks: TaskModel[] = [];
+        if (this.selectedOption === 'Newly created') {
+            sortedTasks = this.sortTasksByNewlyCreated(tasksToSort);
+        }
+        if (this.selectedOption === 'Newly updated') {
+            sortedTasks = this.sortTasksByNewlyUpdated(tasksToSort);
+        }
+        if (this.selectedOption === 'Old created') {
+            sortedTasks = this.sortTasksByOldCreated(tasksToSort);
+        }
+        if (this.selectedOption === 'Old updated') {
+            sortedTasks = this.sortTasksByOldUpdated(tasksToSort);
+        }
+
+        return sortedTasks;
+    }
+
+
+    sortTasksByNewlyCreated(tasksToSort: TaskModel[]) {
+        tasksToSort.sort((a, b) => new Date(a.createdDate).getTime() - new Date(b.createdDate).getTime());
+        return tasksToSort;
+    }
+
+
+    sortTasksByNewlyUpdated(tasksToSort: TaskModel[]) {
+        tasksToSort.sort((a, b) => new Date(a.updatedDate).getTime() - new Date(b.updatedDate).getTime());
+        return tasksToSort;
+    }
+
+
+    sortTasksByOldCreated(tasksToSort: TaskModel[]) {
+        tasksToSort.sort((a, b) => new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime());
+        return tasksToSort;
+    }
+
+
+    sortTasksByOldUpdated(tasksToSort: TaskModel[]) {
+        tasksToSort.sort((a, b) => new Date(b.updatedDate).getTime() - new Date(a.updatedDate).getTime());
+        return tasksToSort;
+    }
+
+
+    filterTasksByDone(): TaskModel[] {
         let doneTasks: TaskModel[] = [];
-        for (let task of this.onTaskSearchFilter()) {
+        for (let task of this.searchTaskFilter()) {
             if (task.isDone === true) {
                 doneTasks.push(task);
             }
         }
+        this.sortTaskByDate(doneTasks);
         return doneTasks;
     }
 
 
-    onSortTasksByNotDone(): TaskModel[] {
+    filterTasksByNotDone(): TaskModel[] {
         let notDoneTasks: TaskModel[] = [];
-        for (let task of this.onTaskSearchFilter()) {
+        for (let task of this.searchTaskFilter()) {
             if (task.isDone === false) {
                 notDoneTasks.push(task);
             }
         }
+        this.sortTaskByDate(notDoneTasks);
         return notDoneTasks;
     }
 
-    onToggleStar(task: TaskModel): void {
-
+    toggleTaskStar(task: TaskModel): void {
         task.isStarred = !task.isStarred;
         this.onUpdateTask(task);
 
@@ -162,7 +203,7 @@ export class TodolistComponent implements OnInit {
     }
 
 
-    onDoneTaskCheckClicked(task: TaskModel) {
+    removeTaskFromDone(task: TaskModel) {
         task.isDone = false;
         this.onUpdateTask(task);
     }
